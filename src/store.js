@@ -1,3 +1,5 @@
+import { countSelects } from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -42,9 +44,13 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    const newItem = {
+      code: this.state.list.length + 1,
+      title: "Новая запись",
+    };
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+      list: [...this.state.list, newItem]
     })
   };
 
@@ -72,6 +78,15 @@ class Store {
         } else {
           item.selected = false;
         }
+
+        if(!item.selectedCounter) {
+          const initialCount = 0;
+          item.selectedCounter = initialCount;
+        }
+
+        if (item.selected) {
+          item.selectedCounter += 1;
+        } 
         return item;
       })
     })

@@ -1,4 +1,4 @@
-const propNames = new Set(['id', 'className', 'textContent', 'onclick']);
+const propNames = new Set(["id", "className", "textContent", "onclick"]);
 
 /**
  * Создание элемента со свойствами и вложенными элементами
@@ -25,4 +25,16 @@ export function createElement(name, props = {}, ...children) {
   }
 
   return element;
+}
+
+export function selectTimes(count) {
+  const lastNumber = String(count).at(-1);
+  const notChanging = String(count).slice(-2);
+  if (notChanging !== '12' && notChanging !== '13' && notChanging !== '14') {
+    if (lastNumber === "2" || lastNumber === "3" || lastNumber === "4") {
+      return " раза";
+    }
+  }
+  
+  return " раз";
 }
