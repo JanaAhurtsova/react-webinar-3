@@ -1,5 +1,3 @@
-import { countSelects } from "./utils";
-
 /**
  * Хранилище состояния приложения
  */
@@ -7,6 +5,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.uniqueCodes = this.state.list.map(item => item.code);
   }
 
   /**
@@ -44,10 +43,15 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    const nextCode = this.uniqueCodes.length + 1;
+
     const newItem = {
-      code: this.state.list.length + 1,
+      code: nextCode,
       title: "Новая запись",
     };
+
+    this.uniqueCodes.push(nextCode);
+    
     this.setState({
       ...this.state,
       list: [...this.state.list, newItem]
