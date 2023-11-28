@@ -1,3 +1,5 @@
+import {generateCode} from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -5,7 +7,6 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
-    this.uniqueCodes = this.state.list.map(item => item.code);
   }
 
   /**
@@ -43,18 +44,9 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
-    const nextCode = this.uniqueCodes.length + 1;
-
-    const newItem = {
-      code: nextCode,
-      title: "Новая запись",
-    };
-
-    this.uniqueCodes.push(nextCode);
-    
     this.setState({
       ...this.state,
-      list: [...this.state.list, newItem]
+      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
     })
   };
 
@@ -65,6 +57,7 @@ class Store {
   deleteItem(code) {
     this.setState({
       ...this.state,
+      // Новый список, в котором не будет удаляемой записи
       list: this.state.list.filter(item => item.code !== code)
     })
   };
@@ -78,20 +71,15 @@ class Store {
       ...this.state,
       list: this.state.list.map(item => {
         if (item.code === code) {
-          item.selected = !item.selected;
-        } else {
-          item.selected = false;
+          // Смена выделения и подсчёт
+          return {
+            ...item,
+            selected: !item.selected,
+            count: item.selected ? item.count : item.count + 1 || 1,
+          };
         }
-
-        if(!item.selectedCounter) {
-          const initialCount = 0;
-          item.selectedCounter = initialCount;
-        }
-
-        if (item.selected) {
-          item.selectedCounter += 1;
-        } 
-        return item;
+        // Сброс выделения если выделена
+        return item.selected ? {...item, selected: false} : item;
       })
     })
   }
