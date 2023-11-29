@@ -1,0 +1,19 @@
+.Shopping-cart-info {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.Shopping-cart-info button {
+  width: 80px;
+}
+
+.Shopping-cart-info-total {
+  padding: 20px 20px;
+  font-size: 18px;
+}
+
+.Shopping-cart-info-total b {
+  margin-left: 14px;
+}
