@@ -4,8 +4,8 @@
 class Store {
   constructor(initState = {}) {
     this.state = initState;
-    this.listeners = [];
-    this.sum = 0; // Слушатели изменений состояния
+    this.listeners = []; // Слушатели изменений состояния
+    this.sum = 0;
   }
 
   /**

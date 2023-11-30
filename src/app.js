@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
-import List from "./components/lists/list";
+import List from "./components/list";
 import Head from "./components/head";
-import PageLayout from "./components/layouts/page-layout";
+import PageLayout from "./components/page-layout";
 import ShoppingCartInfo from './components/shopping-cart-info';
 import ShoppingCart from './components/shopping-cart';
 
@@ -41,12 +41,12 @@ function App({store}) {
         sum={totalSum}
         onMoveToCart={() => setIsOpen(true)}
       />
-      <List list={list} onAddItemToCart={callbacks.onAddItem} />
+      <List list={list} onAction={callbacks.onAddItem} buttonTitle='Добавить' />
       {isOpen && (
         <ShoppingCart
           setIsOpen={setIsOpen}
           onCloseModal={() => setIsOpen(false)}
-          list={sortedCart}
+          cartList={sortedCart}
           onDeleteItem={callbacks.onDeleteItem}
           sum={totalSum}
         />

@@ -20,3 +20,9 @@
   padding: 0 24px;
   font-size: 18px;
 }
+
+.Item-count {
+  padding-left: 35px;
+  min-width: 4rem;
+  font-size: 18px;
+}

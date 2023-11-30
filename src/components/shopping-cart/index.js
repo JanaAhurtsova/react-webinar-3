@@ -6,7 +6,7 @@ import Overlay from "../overlay";
 import Head from "../head";
 import { pluralCurrency } from "../../utils";
 import Controls from "../controls";
-import ListCart from "../lists/list-cart";
+import List from "../list";
 import './style.css';
 
 function ShoppingCart(props) {
@@ -19,8 +19,12 @@ function ShoppingCart(props) {
           <Head title="Корзина" />
           <Controls onAction={props.onCloseModal} title="Закрыть" />
         </div>
-        <ListCart list={props.list} onRemoveItemFromCart={props.onDeleteItem} />
-        {props.list.length > 0 ? (
+        <List
+          list={props.cartList}
+          onAction={props.onDeleteItem}
+          buttonTitle="Удалить"
+        />
+        {props.cartList.length > 0 ? (
           <div className={cn("total")}>
             <b>Итого</b>
             <b>{pluralCurrency(props.sum)}</b>
@@ -37,6 +41,14 @@ ShoppingCart.propTypes = {
   setIsOpen: PropTypes.func,
   onCloseModal: PropTypes.func,
   onDeleteItem: PropTypes.func,
+  cartList: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.number,
+      title: PropTypes.string,
+      price: PropTypes.number,
+      count: PropTypes.number,
+    })
+  ).isRequired,
   sum: PropTypes.number,
 };
 
