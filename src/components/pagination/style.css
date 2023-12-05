@@ -1,0 +1,33 @@
+.Pagination {
+  display: flex;
+  justify-content: flex-end;
+  list-style-type: none;
+  padding: 21px;
+  margin: 0;
+}
+
+.Pagination-item {
+  text-align: center;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: .3s;
+}
+
+.Pagination-item:hover{
+  background-color: #ccc;
+}
+
+.Pagination-item.selected {
+  background-color: #0087E9;
+  color: #fff;
+}
+
+.Pagination-item.dots {
+  color: #ccc;
+}
+
+.Pagination-item.dots:hover {
+  background-color: transparent;
+  cursor: default;
+}

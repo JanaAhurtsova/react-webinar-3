@@ -33,3 +33,12 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = "ru-RU", options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function range(start, end) {
+  let length = end - start + 1;
+  /*
+    Создание массива определенной длины и установка в нем элементов от
+    начального значения до конечного.
+  */
+  return Array.from({ length }, (_, idx) => idx + start);
+};
