@@ -1,42 +1,42 @@
-import React from "react";
+import {memo, useState} from "react";
 import PropTypes from "prop-types";
-import { cn as bem } from "@bem-react/classname";
-
-import Controls from "../controls";
-import {pluralCurrency} from "../../utils";
+import {cn as bem} from '@bem-react/classname';
+import {numberFormat} from "../../utils";
 import './style.css';
 
 function Item(props) {
-  const cn = bem("Item");
+
+  const cn = bem('Item');
+
+  const callbacks = {
+    onAdd: (e) => props.onAdd(props.item._id)
+  }
 
   return (
     <div className={cn()}>
-      <div className={cn("code")}>{props.item.code}</div>
-      <div className={cn("title")}>{props.item.title}</div>
-      <div className={cn("price")}>{pluralCurrency(props.item.price)}</div>
-      {props.item.count && (
-        <span className={cn("count")}>{props.item.count} шт</span>
-      )}
-      <Controls
-        onAction={() => props.onAction(props.item.code)}
-        title={props.buttonTitle}
-      />
+      {/*<div className={cn('code')}>{props.item._id}</div>*/}
+      <div className={cn('title')}>
+        {props.item.title}
+      </div>
+      <div className={cn('actions')}>
+        <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
+        <button onClick={callbacks.onAdd}>Добавить</button>
+      </div>
     </div>
   );
 }
 
 Item.propTypes = {
   item: PropTypes.shape({
-    code: PropTypes.number,
+    _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
-    price: PropTypes.number,
-    count: PropTypes.number
+    price: PropTypes.number
   }).isRequired,
-  buttonTitle: PropTypes.string
+  onAdd: PropTypes.func,
 };
 
 Item.defaultProps = {
-  onAction: () => {},
-};
+  onAdd: () => {},
+}
 
-export default React.memo(Item);
+export default memo(Item);
