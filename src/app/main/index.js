@@ -9,7 +9,6 @@ import useSelector from "../../store/use-selector";
 import Pagination from '../../components/pagination';
 
 function Main() {
-
   const store = useStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [skip, setSkip] = useState(0);

@@ -1,11 +1,12 @@
 import { memo } from "react";
 import { cn as bem } from "@bem-react/classname";
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from "prop-types";
 import { usePagination, DOTS } from "../../store/use-pagination";
 import './style.css';
 
 function Pagination(props) {
-  const {onPageChange, totalCount, siblingCount = 1, currentPage, pageSize = 10} = props;
+  const {onPageChange, totalCount, siblingCount, currentPage, pageSize} = props;
   const cn = bem("Pagination");
 
   const paginationRange = usePagination({currentPage, totalCount, siblingCount, pageSize});
@@ -36,5 +37,18 @@ function Pagination(props) {
     </ul>
   );
 }
+
+Pagination.propTypes = {
+  onPageChange: PropTypes.func,
+  totalCount: PropTypes.number,
+  siblingCount: PropTypes.number,
+  currentPage: PropTypes.number,
+  pageSize: PropTypes.number,
+};
+
+Pagination.defaultProps = {
+  siblingCount: 1,
+  pageSize: 10
+};
 
 export default memo(Pagination);

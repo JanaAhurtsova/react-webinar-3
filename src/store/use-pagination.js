@@ -24,15 +24,15 @@ export function usePagination ({
 
     const firstPageIndex = 1;
     const lastPageIndex = totalPageCount;
-    
+
     // не показывать левые точки
     if (!shouldShowLeftDots && shouldShowRightDots) {
       const leftItemCount = 1 + 2 * siblingCount;
-      let leftRange = range(1, leftItemCount);
+      let leftRange = range(firstPageIndex, leftItemCount);
       if(rightSiblingIndex !== 4) {
         return [...leftRange, DOTS, totalPageCount];
       } else {
-        leftRange = range(1, leftItemCount + 1);
+        leftRange = range(firstPageIndex, leftItemCount + 1);
         return [...leftRange, DOTS, totalPageCount];
       }
     }
