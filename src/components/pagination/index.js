@@ -17,9 +17,9 @@ function Pagination(props) {
 
   return (
     <ul className={cn()}>
-      {paginationRange.map((pageNumber) => {
+      {paginationRange.map((pageNumber, idx) => {
         if (pageNumber === DOTS) {
-          return <li className={`${cn("item")} dots`} key={uuidv4()}>&#8230;</li>;
+          return <li className={`${cn("item")} dots`} key={idx}>&#8230;</li>;
         }
 
         return (
@@ -27,7 +27,7 @@ function Pagination(props) {
             className={`${cn("item")} ${
               pageNumber === currentPage ? "selected" : ""
             }`}
-            key={pageNumber}
+            key={idx}
             onClick={() => onPageChange(pageNumber)}
           >
             {pageNumber}
