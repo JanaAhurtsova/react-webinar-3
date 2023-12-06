@@ -2,6 +2,8 @@ import {memo, useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
 import './style.css';
+import Switcher from "../switcher";
+import langJSON from '../../assets/lang.json';
 
 function ModalLayout(props) {
 
@@ -29,14 +31,17 @@ function ModalLayout(props) {
 
   return (
     <div className={cn()} ref={layout}>
-      <div className={cn('frame')} ref={frame}>
-        <div className={cn('head')}>
-          <h1 className={cn('title')}>{props.title}</h1>
-          <button className={cn('close')} onClick={props.onClose}>Закрыть</button>
+      <div className={cn("frame")} ref={frame}>
+        <div className={cn("head")}>
+          <div className={cn("head-switch")}>
+            <h1 className={cn("title")}>{props.title}</h1>
+            <Switcher />
+          </div>
+          <button className={cn("close")} onClick={props.onClose}>
+            {langJSON[props.lang].close}
+          </button>
         </div>
-        <div className={cn('content')}>
-          {props.children}
-        </div>
+        <div className={cn("content")}>{props.children}</div>
       </div>
     </div>
   );
@@ -46,6 +51,7 @@ ModalLayout.propTypes = {
   title: PropTypes.string,
   onClose: PropTypes.func,
   children: PropTypes.node,
+  lang: PropTypes.string
 };
 
 ModalLayout.defaultProps = {

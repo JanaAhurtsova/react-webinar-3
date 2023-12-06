@@ -2,6 +2,7 @@ import { cn as bem } from "@bem-react/classname";
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { numberFormat } from "../../utils";
+import langJSON from '../../assets/lang.json'
 import './style.css';
 
 function Card(props) {
@@ -20,19 +21,19 @@ function Card(props) {
     <div className={cn()}>
       <p className={cn("description")}>{props.description}</p>
       <p className={cn("madeIn")}>
-        Страна производитель:
+        {langJSON[props.lang].country}
         <b> {props.madeIn} ({props.code})</b>
       </p>
       <p className={cn("category")}>
-        Категория:
+        {langJSON[props.lang].category}
         <b> {props.category}</b>
       </p>
       <p className={cn("edition")}>
-        Год выпуска:
+        {langJSON[props.lang].year}
         <b> {props.edition}</b>
       </p>
-      <h3>Цена: {currancy}</h3>
-      <button onClick={callbacks.onAdd}>Добавить</button>
+      <h3>{langJSON[props.lang].price} {currancy}</h3>
+      <button onClick={callbacks.onAdd}>{langJSON[props.lang].add}</button>
     </div>
   );
 }

@@ -7,7 +7,7 @@
  * @param [locale] {String} Локаль (код языка)
  * @returns {String}
  */
-export function plural(value, variants = {}, locale = "ru-RU") {
+export function plural(value, locale, variants = {} ) {
   // Получаем фурму кодовой строкой: 'zero', 'one', 'two', 'few', 'many', 'other'
   // В русском языке 3 формы: 'one', 'few', 'many', и 'other' для дробных
   // В английском 2 формы: 'one', 'other'

@@ -26,6 +26,7 @@ function Product() {
     count: state.catalog.count,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    lang: state.localization.lang
   }));
 
   useEffect(() => {
@@ -53,6 +54,7 @@ function Product() {
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
         sum={select.sum}
+        lang={select.lang}
       />
       <Card
         _id={product._id}
@@ -63,6 +65,7 @@ function Product() {
         edition={product.edition}
         category={product.category.title}
         onAdd={callbacks.addToBasket}
+        lang={select.lang}
       />
     </PageLayout>
   );

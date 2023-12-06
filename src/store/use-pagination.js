@@ -27,7 +27,7 @@ export function usePagination ({
 
     // не показывать левые точки
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = 1 + 2 * siblingCount;
+      const leftItemCount = firstPageIndex + 2 * siblingCount;
       let leftRange = range(firstPageIndex, leftItemCount);
       if(rightSiblingIndex !== 4) {
         return [...leftRange, DOTS, totalPageCount];
@@ -39,7 +39,7 @@ export function usePagination ({
 
     //не показывать правые точки
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount = 1 + 2 * siblingCount;
+      const rightItemCount = firstPageIndex + 2 * siblingCount;
       let rightRange = range(
         totalPageCount - rightItemCount + 1,
         totalPageCount
