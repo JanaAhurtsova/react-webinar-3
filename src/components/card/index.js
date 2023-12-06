@@ -32,7 +32,7 @@ function Card(props) {
         {langJSON[props.lang].year}
         <b> {props.edition}</b>
       </p>
-      <h3>{langJSON[props.lang].price} {currancy}</h3>
+      <h3 className={cn("price")}>{langJSON[props.lang].price} {currancy}</h3>
       <button onClick={callbacks.onAdd}>{langJSON[props.lang].add}</button>
     </div>
   );

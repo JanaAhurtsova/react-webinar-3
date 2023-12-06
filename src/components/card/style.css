@@ -1,7 +1,13 @@
 .Card {
-  padding: 10px 20px;
+  padding: 5px 40px;
+  font-size: 18px;
 }
 
 .Card button {
   width: 76px;
+}
+
+.Card-price {
+  font-size: 24px;
+  margin: 20px 0;
 }
