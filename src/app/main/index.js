@@ -34,7 +34,8 @@ function Main() {
     // Изменение страницы товаров
     onPageChange: (page) => {
       setCurrentPage(page);
-      setSkip(page*10 - 10)
+      setSkip(page*10 - 10);
+      localStorage.setItem("skip", JSON.stringify(page * 10 - 10));
     }
   }
 
