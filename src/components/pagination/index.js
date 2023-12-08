@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { cn as bem } from "@bem-react/classname";
-import { v4 as uuidv4 } from 'uuid';
 import PropTypes from "prop-types";
 import { usePagination, DOTS } from "../../store/use-pagination";
 import './style.css';
