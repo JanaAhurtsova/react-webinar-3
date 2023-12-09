@@ -15,6 +15,13 @@ class Catalog extends StoreModule {
     }
   }
 
+  setList(newState) {
+    this.setState({
+        ...this.getState(),
+        list: [newState],
+      })
+  }
+
   async load(skip = 0) {
     try {
       const response = await fetch(

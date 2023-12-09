@@ -2,7 +2,9 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useSelector from "../../store/use-selector";
 import useStore from "../../store/use-store";
-import MainLayout from "../../components/main-layout";
+import PageLayout from '../../components/page-layout';
+import Head from '../../components/head';
+import BasketTool from '../../components/basket-tool';
 import Card from "../../components/card";
 
 function Product() {
@@ -30,7 +32,13 @@ function Product() {
   useEffect(() => {
     fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`)
       .then((res) => res.json())
-      .then((data) => setProduct(data.result));
+      .then((data) => {
+        setProduct(data.result)
+        if(select.list.length === 0) {
+          store.actions.catalog.setList(data.result);
+        }
+      })
+      .catch(err => console.error(err))
   }, [id]);
 
   const callbacks = {
@@ -46,13 +54,14 @@ function Product() {
     ),
   };
   return (
-    <MainLayout
-      title={product.title}
-      onOpen={callbacks.openModalBasket}
-      amount={select.amount}
-      sum={select.sum}
-      lang={select.lang}
-    >
+    <PageLayout>
+      <Head title={product.title} />
+      <BasketTool
+        onOpen={callbacks.openModalBasket}
+        amount={select.amount}
+        sum={select.sum}
+        lang={select.lang}
+      />
       <Card
         _id={product._id}
         description={product.description}
@@ -64,7 +73,7 @@ function Product() {
         onAdd={callbacks.addToBasket}
         lang={select.lang}
       />
-    </MainLayout>
+    </PageLayout>
   );
 }
 
