@@ -1,8 +1,6 @@
 import {memo, useCallback, useEffect, useState} from 'react';
 import Item from "../../components/item";
-import PageLayout from "../../components/page-layout";
-import Head from "../../components/head";
-import BasketTool from "../../components/basket-tool";
+import MainLayout from '../../components/main-layout';
 import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
@@ -46,17 +44,20 @@ function Main() {
   };
 
   return (
-    <PageLayout>
-      <Head title={langJSON[select.lang].store} />
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        amount={select.amount}
-        sum={select.sum}
-        lang={select.lang}
-      />
+    <MainLayout
+      title={langJSON[select.lang].store}
+      onOpen={callbacks.openModalBasket}
+      amount={select.amount}
+      sum={select.sum}
+      lang={select.lang}
+    >
       <List list={select.list} renderItem={renders.item} />
-      <Pagination currentPage={currentPage} totalCount={select.count} onPageChange={callbacks.onPageChange}/>
-    </PageLayout>
+      <Pagination
+        currentPage={currentPage}
+        totalCount={select.count}
+        onPageChange={callbacks.onPageChange}
+      />
+    </MainLayout>
   );
 }
 

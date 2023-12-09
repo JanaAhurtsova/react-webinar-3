@@ -2,10 +2,8 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useSelector from "../../store/use-selector";
 import useStore from "../../store/use-store";
-import PageLayout from "../../components/page-layout";
-import BasketTool from "../../components/basket-tool";
+import MainLayout from "../../components/main-layout";
 import Card from "../../components/card";
-import Head from "../../components/head";
 
 function Product() {
   const { id } = useParams();
@@ -48,14 +46,13 @@ function Product() {
     ),
   };
   return (
-    <PageLayout>
-      <Head title={product.title} />
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        amount={select.amount}
-        sum={select.sum}
-        lang={select.lang}
-      />
+    <MainLayout
+      title={product.title}
+      onOpen={callbacks.openModalBasket}
+      amount={select.amount}
+      sum={select.sum}
+      lang={select.lang}
+    >
       <Card
         _id={product._id}
         description={product.description}
@@ -67,7 +64,7 @@ function Product() {
         onAdd={callbacks.addToBasket}
         lang={select.lang}
       />
-    </PageLayout>
+    </MainLayout>
   );
 }
 

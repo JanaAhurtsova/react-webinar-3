@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     store.actions.catalog.load(JSON.parse(localStorage.getItem('skip')));
   }, []);
-
+  console.log(activeModal);
   return (
     <>
       <Routes>

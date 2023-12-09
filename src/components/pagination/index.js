@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { cn as bem } from "@bem-react/classname";
 import PropTypes from "prop-types";
-import { usePagination, DOTS } from "../../store/use-pagination";
+import { usePagination, DOTS } from "../../hooks/use-pagination";
 import './style.css';
 
 function Pagination(props) {
