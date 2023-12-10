@@ -90,3 +90,7 @@ export function paginationRange ({
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
 };
+
+export function translate(lang, dictionary, name) {
+  return dictionary[lang][name];
+}

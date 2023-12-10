@@ -8,6 +8,7 @@ import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from '../../components/pagination';
 import langJSON from "../../assets/lang.json";
+import { translate } from '../../utils';
 
 function Main() {
   const store = useStore();
@@ -35,23 +36,24 @@ function Main() {
     onPageChange: (page) => {
       setCurrentPage(page);
       setSkip(page*10 - 10);
-    }
+    },
+    translate: (name) => translate(select.lang, langJSON, name)
   }
 
   const renders = {
     item: useCallback((item) => {
-      return <Item item={item} lang={select.lang} onAdd={callbacks.addToBasket}/>
-    }, [callbacks.addToBasket, select.lang]),
+      return <Item item={item} translate={callbacks.translate} onAdd={callbacks.addToBasket}/>
+    }, [callbacks.addToBasket, callbacks.translate]),
   };
 
   return (
     <PageLayout>
-      <Head title={langJSON[select.lang].store} />
+      <Head title={callbacks.translate("store")} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
         sum={select.sum}
-        lang={select.lang} />
+        translate={callbacks.translate} />
       <List list={select.list} renderItem={renders.item} />
       <Pagination
         currentPage={currentPage}

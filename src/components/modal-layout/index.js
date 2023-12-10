@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
 import './style.css';
 import Switcher from "../switcher";
-import langJSON from '../../assets/lang.json';
 
 function ModalLayout(props) {
 
@@ -38,7 +37,7 @@ function ModalLayout(props) {
             <Switcher />
           </div>
           <button className={cn("close")} onClick={props.onClose}>
-            {langJSON[props.lang].close}
+            {props.translate("close")}
           </button>
         </div>
         <div className={cn("content")}>{props.children}</div>
@@ -51,7 +50,7 @@ ModalLayout.propTypes = {
   title: PropTypes.string,
   onClose: PropTypes.func,
   children: PropTypes.node,
-  lang: PropTypes.string
+  translate: PropTypes.func
 };
 
 ModalLayout.defaultProps = {

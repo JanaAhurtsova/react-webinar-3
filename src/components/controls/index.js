@@ -1,19 +1,18 @@
 import {memo} from "react";
 import PropTypes from 'prop-types';
-import langJSON from '../../assets/lang.json'
 import './style.css';
 
-function Controls({onAdd, lang}) {
+function Controls({onAdd, translate}) {
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>{langJSON[lang].add}</button>
+      <button onClick={() => onAdd()}>{translate("add")}</button>
     </div>
   )
 }
 
 Controls.propTypes = {
   onAdd: PropTypes.func,
-  lang: PropTypes.string
+  translate: PropTypes.func
 };
 
 Controls.defaultProps = {

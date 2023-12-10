@@ -2,7 +2,6 @@ import { cn as bem } from "@bem-react/classname";
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { numberFormat } from "../../utils";
-import langJSON from '../../assets/lang.json'
 import './style.css';
 
 function Card(props) {
@@ -21,19 +20,19 @@ function Card(props) {
     <div className={cn()}>
       <p className={cn("description")}>{props.product.description}</p>
       <p className={cn("madeIn")}>
-        {langJSON[props.lang].country}
+        {props.translate("country")}
         <b> {props.product.madeIn?.title} ({props.product.madeIn?.code})</b>
       </p>
       <p className={cn("category")}>
-        {langJSON[props.lang].category}
+        {props.translate("category")}
         <b> {props.product.category?.title}</b>
       </p>
       <p className={cn("edition")}>
-        {langJSON[props.lang].year}
+        {props.translate("year")}
         <b> {props.product.edition}</b>
       </p>
-      <h3 className={cn("price")}>{langJSON[props.lang].price} {currancy}</h3>
-      <button onClick={callbacks.onAdd}>{langJSON[props.lang].add}</button>
+      <h3 className={cn("price")}>{props.translate("price")} {currancy}</h3>
+      <button onClick={callbacks.onAdd}>{props.translate("add")}</button>
     </div>
   );
 }
@@ -51,7 +50,8 @@ Card.propTypes = {
       title: PropTypes.string
     }),
     edition: PropTypes.number,
-  })
+  }),
+  translate: PropTypes.func
 };
 
 export default memo(Card)

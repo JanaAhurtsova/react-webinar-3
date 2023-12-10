@@ -6,6 +6,8 @@ import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import BasketTool from '../../components/basket-tool';
 import Card from "../../components/card";
+import langJSON from "../../assets/lang.json";
+import { translate } from "../../utils";
 
 function Product() {
   const { id } = useParams();
@@ -35,6 +37,7 @@ function Product() {
       () => store.actions.modals.open("basket"),
       [store]
     ),
+    translate: (name) => translate(select.lang, langJSON, name),
   };
   return (
     <PageLayout>
@@ -43,12 +46,12 @@ function Product() {
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
         sum={select.sum}
-        lang={select.lang}
+        translate={callbacks.translate}
       />
       <Card
         product={select.product}
         onAdd={callbacks.addToBasket}
-        lang={select.lang}
+        translate={callbacks.translate}
       />
     </PageLayout>
   );
