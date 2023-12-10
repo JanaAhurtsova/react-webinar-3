@@ -9,16 +9,6 @@ import Card from "../../components/card";
 
 function Product() {
   const { id } = useParams();
-  const [product, setProduct] = useState({
-    _id: "",
-    title: "",
-    description: "",
-    price: 0,
-    madeIn: {},
-    edition: 0,
-    category: {},
-  });
-
   const store = useStore();
 
   const select = useSelector((state) => ({
@@ -26,19 +16,12 @@ function Product() {
     count: state.catalog.count,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    product: state.product.product,
     lang: state.localization.lang
   }));
 
   useEffect(() => {
-    fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data.result)
-        if(select.list.length === 0) {
-          store.actions.catalog.setList(data.result);
-        }
-      })
-      .catch(err => console.error(err))
+    store.actions.product.load(id);
   }, [id]);
 
   const callbacks = {
@@ -55,7 +38,7 @@ function Product() {
   };
   return (
     <PageLayout>
-      <Head title={product.title} />
+      <Head title={select.product.title} />
       <BasketTool
         onOpen={callbacks.openModalBasket}
         amount={select.amount}
@@ -63,13 +46,7 @@ function Product() {
         lang={select.lang}
       />
       <Card
-        _id={product._id}
-        description={product.description}
-        madeIn={product.madeIn.title}
-        code={product.madeIn.code}
-        price={product.price}
-        edition={product.edition}
-        category={product.category.title}
+        product={select.product}
         onAdd={callbacks.addToBasket}
         lang={select.lang}
       />
