@@ -51,44 +51,50 @@ export function paginationRange ({
   siblingCount = 1,
   currentPage,
 }) {
-    const totalPageCount = Math.ceil(totalCount / pageSize);
-    const totalPageNumbers = siblingCount + 3;
+  const totalPageCount = Math.ceil(totalCount / pageSize);
+  const totalPageNumbers = siblingCount + 3;
 
-    if (totalPageNumbers >= totalPageCount) {
-      return range(1, totalPageCount);
-    }
+  if (totalPageNumbers >= totalPageCount) {
+    return range(1, totalPageCount);
+  }
 
-    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPageCount);
-    const shouldShowLeftDots = leftSiblingIndex > 2;
-    const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
+const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPageCount);
+const shouldShowLeftDots = leftSiblingIndex > 2;
+const shouldShowRightDots = rightSiblingIndex < totalPageCount - 1;
 
-    const firstPageIndex = 1;
-    const lastPageIndex = totalPageCount;
+  const firstPageIndex = 1;
+  const lastPageIndex = totalPageCount;
 
-    // не показывать левые точки
-    if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = Math.max(currentPage, 2) + siblingCount;
-      const leftRange = range(firstPageIndex, leftItemCount);
+  // не показывать левые точки
+  if (!shouldShowLeftDots && shouldShowRightDots) {
+    const leftItemCount = 1 + 2 * siblingCount;
+    let leftRange = range(1, leftItemCount);
+    if (rightSiblingIndex !== 4) {
+      return [...leftRange, DOTS, totalPageCount];
+    } else {
+      leftRange = range(1, leftItemCount + 1);
       return [...leftRange, DOTS, totalPageCount];
     }
+  }
 
-    //не показывать правые точки
-    if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount =
-        Math.max(totalPageCount - currentPage + 1, 2) + siblingCount;
-      const rightRange = range(
-        totalPageCount - rightItemCount + 1,
-        totalPageCount
-      );
+  //не показывать правые точки
+  if (shouldShowLeftDots && !shouldShowRightDots) {
+    const rightItemCount = 1 + 2 * siblingCount;
+    let rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount);
+    if (leftSiblingIndex > totalPageCount - 3) {
+      return [firstPageIndex, DOTS, ...rightRange];
+    } else if (leftSiblingIndex === totalPageCount - 3) {
+      rightRange = range(totalPageCount - rightItemCount, totalPageCount);
       return [firstPageIndex, DOTS, ...rightRange];
     }
+  }
 
-    //показывать точки с двух сторон
-    if (shouldShowLeftDots && shouldShowRightDots) {
-      const middleRange = range(leftSiblingIndex, rightSiblingIndex);
-      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
-    }
+  //показывать точки с двух сторон
+  if (shouldShowLeftDots && shouldShowRightDots) {
+    const middleRange = range(leftSiblingIndex, rightSiblingIndex);
+    return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+  }
 };
 
 export function translate(lang, dictionary, name) {

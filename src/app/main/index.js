@@ -1,4 +1,5 @@
 import {memo, useCallback, useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import BasketTool from '../../components/basket-tool';
@@ -12,13 +13,14 @@ import { translate } from '../../utils';
 import Spinner from '../../components/spinner';
 
 function Main() {
+  const {page} = useParams();
   const store = useStore();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [skip, setSkip] = useState(0);
-
+  const [currentPage, setCurrentPage] = useState(+page ?? 1);
+  const limit = 10;
+  
   useEffect(() => {
-    store.actions.catalog.load(skip);
-  }, [skip]);
+    store.actions.catalog.load((currentPage - 1) * limit);
+  }, [currentPage]);
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
@@ -37,7 +39,6 @@ function Main() {
     // Изменение страницы товаров
     onPageChange: (page) => {
       setCurrentPage(page);
-      setSkip(page*10 - 10);
     },
     translate: (name) => translate(select.lang, langJSON, name)
   }
