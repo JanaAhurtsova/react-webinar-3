@@ -16,18 +16,18 @@ function Pagination(props) {
   }
 
   return (
-    <div className={cn()}>
+    <ul className={cn()}>
       {customPagination.map((pageNumber, idx) => {
         if (pageNumber === DOTS) {
           return (
-            <div className={`${cn("item")} dots`} key={idx}>
+            <li className={`${cn("item")} dots`} key={idx}>
               &#8230;
-            </div>
+            </li>
           );
         }
 
         return (
-          <Link to={`/catalog/${pageNumber}`}
+          <li
             className={`${cn("item")} ${
               pageNumber === currentPage ? "selected" : ""
             }`}
@@ -35,10 +35,10 @@ function Pagination(props) {
             onClick={() => onPageChange(pageNumber)}
           >
             {pageNumber}
-          </Link>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
 
