@@ -9,6 +9,7 @@ import useSelector from "../../store/use-selector";
 import Pagination from '../../components/pagination';
 import langJSON from "../../assets/lang.json";
 import { translate } from '../../utils';
+import Spinner from '../../components/spinner';
 
 function Main() {
   const store = useStore();
@@ -21,6 +22,7 @@ function Main() {
 
   const select = useSelector((state) => ({
     list: state.catalog.list,
+    isLoading: state.catalog.isLoading,
     count: state.catalog.count,
     amount: state.basket.amount,
     sum: state.basket.sum,
@@ -54,7 +56,7 @@ function Main() {
         amount={select.amount}
         sum={select.sum}
         translate={callbacks.translate} />
-      <List list={select.list} renderItem={renders.item} />
+      {select.isLoading ? <Spinner/> : <List list={select.list} renderItem={renders.item} />}
       <Pagination
         currentPage={currentPage}
         totalCount={select.count}

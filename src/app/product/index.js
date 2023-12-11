@@ -8,6 +8,7 @@ import BasketTool from '../../components/basket-tool';
 import Card from "../../components/card";
 import langJSON from "../../assets/lang.json";
 import { translate } from "../../utils";
+import Spinner from "../../components/spinner";
 
 function Product() {
   const { id } = useParams();
@@ -19,6 +20,7 @@ function Product() {
     amount: state.basket.amount,
     sum: state.basket.sum,
     product: state.product.product,
+    isLoading: state.product.isLoading,
     lang: state.localization.lang
   }));
 
@@ -41,18 +43,22 @@ function Product() {
   };
   return (
     <PageLayout>
-      <Head title={select.product.title} />
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        amount={select.amount}
-        sum={select.sum}
-        translate={callbacks.translate}
-      />
-      <Card
-        product={select.product}
-        onAdd={callbacks.addToBasket}
-        translate={callbacks.translate}
-      />
+      {select.isLoading ? <Spinner /> :
+      <>
+        <Head title={select.product.title} />
+        <BasketTool
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
+          translate={callbacks.translate}
+        />
+        <Card
+          product={select.product}
+          onAdd={callbacks.addToBasket}
+          translate={callbacks.translate}
+        />
+      </>}
+
     </PageLayout>
   );
 }
