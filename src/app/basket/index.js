@@ -1,22 +1,23 @@
-import {memo, useCallback} from 'react';
+import { memo, useCallback } from "react";
+import useStore from "../../hooks/use-store";
+import useSelector from "../../hooks/use-selector";
+import useInit from "../../hooks/use-init";
+import useTranslate from "../../hooks/use-translate";
 import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
 import ModalLayout from "../../components/modal-layout";
 import BasketTotal from "../../components/basket-total";
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
-import langJSON from "../../assets/lang.json";
-import { translate } from '../../utils';
 
+/**
+ * Корзина в модальном окне
+ */
 function Basket() {
-
   const store = useStore();
 
-  const select = useSelector(state => ({
+  const select = useSelector((state) => ({
     list: state.basket.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    lang: state.localization.lang
   }));
 
   const callbacks = {
@@ -27,23 +28,34 @@ function Basket() {
     ),
     // Закрытие любой модалки
     closeModal: useCallback(() => store.actions.modals.close(), [store]),
-    translate: (name) => translate(select.lang, langJSON, name),
   };
 
+  const { t } = useTranslate();
+
   const renders = {
-    itemBasket: useCallback((item) => {
-      return <ItemBasket item={item} translate={callbacks.translate} onClose={callbacks.closeModal} onRemove={callbacks.removeFromBasket}/>
-    }, [callbacks.removeFromBasket, callbacks.translate]),
+    itemBasket: useCallback(
+      (item) => (
+        <ItemBasket
+          item={item}
+          link={`/articles/${item._id}`}
+          onRemove={callbacks.removeFromBasket}
+          onLink={callbacks.closeModal}
+          labelUnit={t("basket.unit")}
+          labelDelete={t("basket.delete")}
+        />
+      ),
+      [callbacks.removeFromBasket, t]
+    ),
   };
 
   return (
     <ModalLayout
-      translate={callbacks.translate}
-      title={callbacks.translate("cart")}
+      title={t("basket.title")}
+      labelClose={t("basket.close")}
       onClose={callbacks.closeModal}
     >
       <List list={select.list} renderItem={renders.itemBasket} />
-      <BasketTotal translate={callbacks.translate} sum={select.sum} />
+      <BasketTotal sum={select.sum} t={t} />
     </ModalLayout>
   );
 }
