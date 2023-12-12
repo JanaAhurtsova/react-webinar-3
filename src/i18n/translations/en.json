@@ -14,5 +14,6 @@
   "basket.articles": {
     "one": "article",
     "other": "articles"
-  }
+  },
+  "filter.search": "Search"
 }

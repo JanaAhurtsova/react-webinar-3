@@ -8,13 +8,39 @@ function Select(props) {
     props.onChange(e.target.value);
   };
 
+  const render = {
+    options: (options) => {
+      const items = [];
+      let depth = 0;
+
+      const addDashes = (elems) => {
+        elems.forEach((option) => {
+          const dashes = depth > 0 ? "-".repeat(depth) : "";
+          items.push(
+            <option key={option.value} value={option.value}>
+              {dashes} {option.title}
+            </option>
+          );
+
+          if (option.children) {
+            depth++;
+            addDashes(option.children);
+            depth--;
+          }
+        });
+      }
+
+      addDashes(options);
+
+      return items;
+    }
+  }
+
   return (
     <select className="Select" value={props.value} onChange={onSelect}>
-      {props.options.map(item => (
-        <option key={item.value} value={item.value}>{item.title}</option>
-      ))}
+      {render.options(props.options)}
     </select>
-  )
+  );
 }
 
 Select.propTypes = {
