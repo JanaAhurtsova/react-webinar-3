@@ -28,7 +28,7 @@ function Pagination(props) {
   if (right < length) items.push(length);
 
   const onClickHandler = (number) => (e) => {
-    if (props.onChange) {
+    if (props.onChange && number) {
       e.preventDefault();
       props.onChange(number);
     }
@@ -44,12 +44,11 @@ function Pagination(props) {
             active: number === props.page,
             split: !number,
           })}
+          onClick={onClickHandler(number)}
         >
           {number ? (
             props.makeLink ? (
-              <a href={props.makeLink(number)} onClick={onClickHandler(number)}>
-                {number}
-              </a>
+              <a href={props.makeLink(number)}>{number}</a>
             ) : (
               number
             )

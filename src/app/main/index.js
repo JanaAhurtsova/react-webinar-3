@@ -8,6 +8,7 @@ import Head from "../../components/head";
 import CatalogFilter from "../../containers/catalog-filter";
 import CatalogList from "../../containers/catalog-list";
 import LocaleSelect from "../../containers/locale-select";
+import AuthInfo from "../../containers/auth-info";
 
 /**
  * Главная страница - первичная загрузка каталога
@@ -18,15 +19,14 @@ function Main() {
   useInit(
     () => {
       store.actions.catalog.initParams();
-    },
-    [],
-    true
-  );
+      store.actions.user.initAuthorization();
+    }, [], true);
 
   const { t } = useTranslate();
 
   return (
     <PageLayout>
+      <AuthInfo />
       <Head title={t("title")}>
         <LocaleSelect />
       </Head>

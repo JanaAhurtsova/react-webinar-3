@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
@@ -10,7 +10,7 @@ import Navigation from "../../containers/navigation";
 import Spinner from "../../components/spinner";
 import ArticleCard from "../../components/article-card";
 import LocaleSelect from "../../containers/locale-select";
-
+import AuthInfo from "../../containers/auth-info";
 /**
  * Страница товара с первичной загрузкой товара по id из url адреса
  */
@@ -19,6 +19,10 @@ function Article() {
 
   // Параметры из пути /articles/:id
   const params = useParams();
+
+  useEffect(() => {
+    store.actions.user.initAuthorization();
+  }, []);
 
   useInit(() => {
     store.actions.article.load(params.id);
@@ -41,6 +45,7 @@ function Article() {
 
   return (
     <PageLayout>
+      <AuthInfo />
       <Head title={select.article.title}>
         <LocaleSelect />
       </Head>

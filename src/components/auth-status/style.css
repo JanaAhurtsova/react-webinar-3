@@ -1,0 +1,12 @@
+.AuthStatus {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 20px;
+  gap: 20px;
+}
+
+.AuthStatus-username {
+  font-size: 13px;
+  color: #0087E9;
+}

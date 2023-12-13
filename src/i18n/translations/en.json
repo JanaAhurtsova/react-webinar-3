@@ -15,5 +15,13 @@
     "one": "article",
     "other": "articles"
   },
-  "filter.search": "Search"
+  "filter.search": "Search",
+  "login.title": "Sign in",
+  "login.login": "Login",
+  "login.password": "Password",
+  "login.signin": "Sign in",
+  "login.logout": "Logout",
+  "user.profile": "Profile",
+  "user.name": "Name:",
+  "user.phone": "Phone:"
 }

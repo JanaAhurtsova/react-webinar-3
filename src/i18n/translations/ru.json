@@ -17,5 +17,13 @@
     "many": "товаров",
     "other": "товара"
   },
-  "filter.search": "Поиск"
+  "filter.search": "Поиск",
+  "login.title": "Вход",
+  "login.login": "Логин",
+  "login.password": "Пароль",
+  "login.signin": "Войти",
+  "login.logout": "Выход",
+  "user.profile": "Профиль",
+  "user.name": "Имя:",
+  "user.phone": "Телефон:"
 }
