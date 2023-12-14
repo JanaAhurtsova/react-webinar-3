@@ -3,12 +3,13 @@ import { cn as bem } from "@bem-react/classname";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import './style.css';
+import SideLayout from "../side-layout";
 
 function AuthStatus({t, username, onLogout}) {
   const cn = bem("AuthStatus");
 
   return (
-    <div className={cn()}>
+    <SideLayout padding={"small"} side={"end"}>
       {username ? (
         <>
           <Link to="/profile" className={cn("username")}>{username}</Link>
@@ -21,7 +22,7 @@ function AuthStatus({t, username, onLogout}) {
           <button>{t("login.title")}</button>
         </Link>
       )}
-    </div>
+    </SideLayout>
   );
 }
 

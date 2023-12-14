@@ -15,7 +15,7 @@ function Select(props) {
 
       const addDashes = (elems) => {
         elems.forEach((option) => {
-          const dashes = depth > 0 ? "-".repeat(depth) : "";
+          const dashes = depth > 0 ? "- ".repeat(depth) : "";
           items.push(
             <option key={option.value} value={option.value}>
               {dashes} {option.title}

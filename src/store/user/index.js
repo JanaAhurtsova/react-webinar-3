@@ -98,13 +98,11 @@ class UserState extends StoreModule {
       if (!request && this.getState().token) {
         return;
       }
-      this.setState({ ...this.getState(), waiting: true });
+
       const token = localStorage.getItem('token');
       if(token) {
         await this.getProfile(token);
       }
-
-      this.setState({ ...this.getState(), waiting: false });
     } catch(err) {
       console.error(err);
     }
