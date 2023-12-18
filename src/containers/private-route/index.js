@@ -11,8 +11,8 @@ function PrivateRoute({ redirectTo="/login" }) {
   if(!select.user && !select.waiting) {
     return <Navigate to={redirectTo} replace />;
   }
-
-  if(select.user) {
+  
+  if(select.user && !select.waiting) {
     return <Outlet />;
   }
 }

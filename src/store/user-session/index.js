@@ -72,6 +72,10 @@ class UserSessionState extends StoreModule {
       }
     } catch (err) {
       console.error(err.message);
+      this.setState({
+        ...this.initState(),
+      })
+      this.setWaiting(false);
     }
   }
 

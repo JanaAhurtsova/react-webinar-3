@@ -29,14 +29,14 @@ function Login() {
 
   useEffect(() => {
     const {state} = location;
-    if (select.user) {
+    if (select.user && !select.waiting) {
       if (state?.from) {
         navigate(state?.from);
       } else {
         navigate("/profile");
       }
     }
-  }, [select.user]);
+  }, [select.user, select.waiting]);
 
   const callbacks = {
     onSubmit: (data) => {
