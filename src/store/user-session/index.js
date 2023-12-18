@@ -66,6 +66,7 @@ class UserSessionState extends StoreModule {
       if (json.result) {
         this.setState({
           ...this.initState(),
+          waiting: false
         }, "Пользователь вышел");
         deleteCookie("token");
       }

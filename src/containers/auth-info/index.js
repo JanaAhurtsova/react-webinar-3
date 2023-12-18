@@ -3,10 +3,12 @@ import AuthStatus from "../../components/auth-status";
 import useTranslate from "../../hooks/use-translate";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
+import { useLocation } from "react-router-dom";
 
 function AuthInfo() {
   const store = useStore();
   const { t } = useTranslate();
+  const location = useLocation();
 
   const username = useSelector((state) => state.session.username);
 
@@ -24,6 +26,7 @@ function AuthInfo() {
       onLogout={callbacks.onLogout}
       username={username}
       onClick={callbacks.onRemoveError}
+      location={location.pathname}
     />
   );
 }

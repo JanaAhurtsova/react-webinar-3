@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import './style.css';
 
-function AuthStatus({t, username, onLogout, onClick}) {
+function AuthStatus({t, username, onLogout, onClick, location}) {
   const cn = bem("AuthStatus");
 
   return (
@@ -17,7 +17,7 @@ function AuthStatus({t, username, onLogout, onClick}) {
           </Link>
         </>
       ) : (
-        <Link to="/login">
+        <Link to="/login" state={{from: location }}>
           <button onClick={onClick}>{t("login.title")}</button>
         </Link>
       )}
@@ -30,6 +30,7 @@ AuthStatus.propTypes = {
   username: PropTypes.string,
   onLogout: PropTypes.func,
   onClick: PropTypes.func,
+  location: PropTypes.string,
 };
 
 AuthStatus.defaultProps = {

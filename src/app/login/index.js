@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthInfo from "../../containers/auth-info";
 import useTranslate from "../../hooks/use-translate";
 import Head from "../../components/head";
@@ -15,6 +15,7 @@ function Login() {
   const { t } = useTranslate();
   const store = useStore();
   const navigate = useNavigate();
+  const location = useLocation()
 
   useInit(() => {
     store.actions.session.removeError();
@@ -27,10 +28,15 @@ function Login() {
   }));
 
   useEffect(() => {
-    if (select.user && !select.waiting) {
-      navigate(`/profile`, { replace: true });
+    const {state} = location;
+    if (select.user) {
+      if (state?.from) {
+        navigate(state?.from);
+      } else {
+        navigate("/profile");
+      }
     }
-  }, [select.user, select.waiting]);
+  }, [select.user]);
 
   const callbacks = {
     onSubmit: (data) => {

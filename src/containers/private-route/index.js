@@ -7,12 +7,14 @@ function PrivateRoute({ redirectTo="/login" }) {
     user: state.session.username,
     waiting: state.session.waiting
   }));
-  
+
   if(!select.user && !select.waiting) {
     return <Navigate to={redirectTo} replace />;
   }
 
-  return <Outlet />;
+  if(select.user) {
+    return <Outlet />;
+  }
 }
 
 PrivateRoute.propTypes = {
