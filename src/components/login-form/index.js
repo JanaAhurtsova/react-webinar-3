@@ -18,19 +18,21 @@ function LoginForm({t, error, onSubmit}) {
   };
 
   return (
-    <form className={cn()} onSubmit={callbacks.onSubmit}>
+    <form className={cn()} name="login-form" onSubmit={callbacks.onSubmit}>
       <h2>{t("login.title")}</h2>
       <div className={cn("field")}>
-        <label>{t("login.login")}</label>
+        <label htmlFor="login">{t("login.login")}</label>
         <input
+          id="login"
           className={cn("input")}
           type="text"
           onChange={callbacks.onChangeLogin}
         />
       </div>
       <div className={cn("field")}>
-        <label>{t("login.password")}</label>
+        <label htmlFor="password">{t("login.password")}</label>
         <input
+          id="password"
           className={cn("input")}
           type="password"
           onChange={callbacks.onChangePassword}

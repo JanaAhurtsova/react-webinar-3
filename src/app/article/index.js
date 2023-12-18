@@ -20,10 +20,6 @@ function Article() {
   // Параметры из пути /articles/:id
   const params = useParams();
 
-  useEffect(() => {
-    store.actions.user.initAuthorization();
-  }, []);
-
   useInit(() => {
     store.actions.article.load(params.id);
   }, [params.id]);

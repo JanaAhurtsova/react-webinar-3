@@ -8,23 +8,22 @@ function AuthInfo() {
   const store = useStore();
   const { t } = useTranslate();
 
-  const select = useSelector((state) => ({
-    token: state.user.token,
-    username: state.user.profile.name
-  }))
+  const username = useSelector((state) => state.session.username);
 
   const callbacks = {
     onLogout: () => {
-      store.actions.user.logoutUser(select.token);
-      localStorage.removeItem("token");
-    }
+      store.actions.session.logoutUser();
+      store.actions.profile.resetProfileInfo();
+    },
+    onRemoveError: () => store.actions.session.removeError()
   }
 
   return (
     <AuthStatus
       t={t}
       onLogout={callbacks.onLogout}
-      username={select.username}
+      username={username}
+      onClick={callbacks.onRemoveError}
     />
   );
 }

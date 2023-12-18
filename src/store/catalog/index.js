@@ -1,4 +1,3 @@
-import { createCategoriesTree } from "../../utils";
 import StoreModule from "../module";
 
 /**
@@ -21,7 +20,6 @@ class CatalogState extends StoreModule {
       },
       count: 0,
       waiting: false,
-      categories: []
     };
   }
 
@@ -46,22 +44,6 @@ class CatalogState extends StoreModule {
       { ...this.initState().params, ...validParams, ...newParams },
       true
     );
-  }
-
-  async setCategories() {
-    try {
-      const response = await fetch(
-        "/api/v1/categories?fields=_id,title,parent(_id)&limit=*"
-      );
-      const json = await response.json();
-      const categories = createCategoriesTree(json.result.items);
-      this.setState({
-        ...this.getState(),
-        categories
-      });
-    } catch(err) {
-      console.error(err)
-    }
   }
 
   /**

@@ -5,6 +5,7 @@ import useSelector from "../../hooks/use-selector";
 import Select from "../../components/select";
 import Input from "../../components/input";
 import SideLayout from "../../components/side-layout";
+import {buildNestedCategories} from "../../utils";
 
 /**
  * Контейнер со всеми фильтрами каталога
@@ -17,7 +18,7 @@ function CatalogFilter() {
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
     category: state.catalog.params.category,
-    categories: state.catalog.categories,
+    categories: state.categories.categories,
   }));
 
   const callbacks = {
@@ -41,13 +42,13 @@ function CatalogFilter() {
     ]), []),
     categories: useMemo(() => {
       const allCategories = [{ value: "", title: "Все" }];
-
-      return allCategories.concat(select.categories);
+      const apiCategories = buildNestedCategories(select.categories);
+      return allCategories.concat(apiCategories);
     }, [select.categories])
   };
 
   useEffect(() => {
-    store.actions.catalog.setCategories();
+    store.actions.categories.load();
   }, []);
 
 

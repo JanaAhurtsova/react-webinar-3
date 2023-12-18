@@ -34,7 +34,7 @@ export function numberFormat(value, locale = "ru-RU", options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
 
-export function createCategoriesTree(arr) {
+function createCategoriesTree(arr) {
   const map = new Map(
     arr.map((item) => [
       item._id,
@@ -46,7 +46,6 @@ export function createCategoriesTree(arr) {
       },
     ])
   );
-
   for (let item of map.values()) {
     if (!item.parent || !map.has(item.parent._id)) {
       continue;
@@ -58,4 +57,39 @@ export function createCategoriesTree(arr) {
   }
 
   return [...map.values()].filter(item => !item.parent)
+}
+
+export function buildNestedCategories(arr) {
+  const tree = createCategoriesTree(arr);
+  function build(array, depth = 0, result = []) {
+    array.forEach((item) => {
+      const prefix = "- ".repeat(depth);
+      const itemWithPrefix = { ...item, title: `${prefix}${item.title}` };
+      result.push({ ...itemWithPrefix });
+      if (item.children && item.children.length > 0) {
+        build(item.children, depth + 1, result);
+      }
+    });
+    return result;
+  };
+
+  return build(tree);
+}
+
+// возвращает куки с указанным name,
+// или undefined, если ничего не найдено
+export function getCookie(name) {
+  let matches = document.cookie.match(
+    new RegExp(
+      "(?:^|; )" +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+
+export function deleteCookie(name) {
+  document.cookie = name + "=; Max-Age=0";
 }
