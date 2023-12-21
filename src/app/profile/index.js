@@ -1,19 +1,17 @@
-import {memo, useCallback, useMemo} from 'react';
-import {useParams} from 'react-router-dom';
+import {memo} from 'react';
+import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
-import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
-import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
 import ProfileCard from '../../components/profile-card';
 
-function Profile() {
+function Profile({translate}) {
   const store = useStore();
 
   useInit(() => {
@@ -25,20 +23,28 @@ function Profile() {
     waiting: state.profile.waiting,
   }));
 
-  const {t} = useTranslate();
+  const {lang, setLang, t} = translate;
 
   return (
     <PageLayout>
-      <TopHead/>
-      <Head title={t('title')}>
-        <LocaleSelect/>
+      <TopHead t={t} />
+      <Head title={t("title")}>
+        <LocaleSelect setLang={setLang} lang={lang} />
       </Head>
-      <Navigation/>
+      <Navigation t={t} />
       <Spinner active={select.waiting}>
-        <ProfileCard data={select.profile}/>
+        <ProfileCard data={select.profile} t={t} />
       </Spinner>
     </PageLayout>
   );
 }
+
+Profile.propTypes = {
+  translate: PropTypes.shape({
+    lang: PropTypes.string,
+    setLang: PropTypes.func,
+    t: PropTypes.func,
+  }),
+};
 
 export default memo(Profile);

@@ -1,14 +1,14 @@
 import {memo, useCallback, useMemo} from 'react';
+import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
-import useTranslate from '../../hooks/use-translate';
 import Menu from '../../components/menu';
 import BasketTool from '../../components/basket-tool';
 import SideLayout from '../../components/side-layout';
 import {useDispatch} from 'react-redux';
 import modalsActions from '../../store-redux/modals/actions';
 
-function Navigation() {
+function Navigation({ t }) {
   const store = useStore();
   const dispatch = useDispatch();
 
@@ -30,9 +30,6 @@ function Navigation() {
     }, [store])
   }
 
-  // Функция для локализации текстов
-  const {t} = useTranslate();
-
   const options = {
     menu: useMemo(() => ([
       {key: 1, title: t('menu.main'), link: '/'},
@@ -45,6 +42,10 @@ function Navigation() {
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} t={t}/>
     </SideLayout>
   );
+}
+
+Navigation.propTypes = {
+  t: PropTypes.func
 }
 
 export default memo(Navigation);

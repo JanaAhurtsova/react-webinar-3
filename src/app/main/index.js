@@ -1,6 +1,6 @@
 import {memo} from 'react';
+import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
-import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
@@ -10,30 +10,37 @@ import CatalogList from '../../containers/catalog-list';
 import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
 
-function Main() {
+function Main({translate}) {
 
   const store = useStore();
+  const {lang, setLang, t} = translate;
 
   useInit(async () => {
     await Promise.all([
       store.actions.catalog.initParams(),
       store.actions.categories.load()
     ]);
-  }, [], true);
-
-  const {t} = useTranslate();
+  }, [lang], true);
 
   return (
     <PageLayout>
-      <TopHead/>
-      <Head title={t('title')}>
-        <LocaleSelect/>
+      <TopHead t={t} />
+      <Head title={t("title")}>
+        <LocaleSelect setLang={setLang} lang={lang} />
       </Head>
-      <Navigation/>
-      <CatalogFilter/>
-      <CatalogList/>
+      <Navigation t={t} />
+      <CatalogFilter translate={translate} />
+      <CatalogList t={t} />
     </PageLayout>
   );
 }
+
+Main.propTypes = {
+  translate: PropTypes.shape({
+    lang: PropTypes.string,
+    setLang: PropTypes.func,
+    t: PropTypes.func,
+  }),
+};
 
 export default memo(Main);

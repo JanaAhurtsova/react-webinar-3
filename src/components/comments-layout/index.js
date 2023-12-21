@@ -8,7 +8,7 @@ function CommentsLayout(props) {
 
   return (
     <div className={cn()}>
-      <h3 className={cn("title")}>Комментарии ({props.count})</h3>
+      <h3 className={cn("title")}>{props.t("comment.comments")} ({props.count})</h3>
       {props.children}
     </div>
   );
@@ -16,7 +16,12 @@ function CommentsLayout(props) {
 
 CommentsLayout.propsType = {
   children: PropTypes.node,
-  count: PropTypes.number
+  count: PropTypes.number,
+  t: PropTypes.func
+}
+
+CommentsLayout.defaultProps = {
+  t: (text) => {}
 }
 
 export default memo(CommentsLayout);

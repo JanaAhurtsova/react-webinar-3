@@ -1,9 +1,20 @@
-import {useCallback, useContext} from 'react';
-import {I18nContext} from '../i18n/context';
+import { useLayoutEffect, useMemo, useState } from "react";
+import useServices from "./use-services";
 
 /**
  * Хук возвращает функцию для локализации текстов, код языка и функцию его смены
  */
 export default function useTranslate() {
-  return useContext(I18nContext);
+  const { i18n } = useServices();
+	const [lang, setLang] = useState(i18n.lang);
+
+  useLayoutEffect(()=> {
+		i18n.setLang(lang)
+  }, [lang]);
+
+	return {
+    lang,
+    setLang,
+    t: (text, number) => i18n.translate(lang, text, number),
+  };
 }

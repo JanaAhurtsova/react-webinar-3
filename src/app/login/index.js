@@ -1,5 +1,6 @@
 import {memo, useCallback, useState} from 'react';
-import useTranslate from '../../hooks/use-translate';
+import PropTypes from "prop-types";
+import {useLocation, useNavigate} from 'react-router-dom';
 import Head from '../../components/head';
 import LocaleSelect from '../../containers/locale-select';
 import Navigation from '../../containers/navigation';
@@ -8,21 +9,20 @@ import Input from '../../components/input';
 import Field from '../../components/field';
 import SideLayout from '../../components/side-layout';
 import TopHead from '../../containers/top-head';
-import {useLocation, useNavigate} from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useInit from '../../hooks/use-init';
 
-function Login() {
+function Login({translate}) {
 
-  const {t} = useTranslate();
+  const {lang, setLang, t} = translate;
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();
 
   useInit(() => {
     store.actions.session.resetErrors();
-  })
+  }, [])
 
   const select = useSelector(state => ({
     waiting: state.session.waiting,
@@ -56,29 +56,45 @@ function Login() {
 
   return (
     <PageLayout>
-      <TopHead/>
-      <Head title={t('title')}>
-        <LocaleSelect/>
+      <TopHead t={t} />
+      <Head title={t("title")}>
+        <LocaleSelect setLang={setLang} lang={lang} />
       </Head>
-      <Navigation/>
-      <SideLayout padding='medium'>
+      <Navigation t={t} />
+      <SideLayout padding="medium">
         <form onSubmit={callbacks.onSubmit}>
-          <h2>{t('auth.title')}</h2>
-          <Field label={t('auth.login')} error={select.errors?.login}>
-            <Input name='login' value={data.login} onChange={callbacks.onChange}/>
+          <h2>{t("auth.title")}</h2>
+          <Field label={t("auth.login")} error={select.errors?.login}>
+            <Input
+              name="login"
+              value={data.login}
+              onChange={callbacks.onChange}
+            />
           </Field>
-          <Field label={t('auth.password')} error={select.errors?.password}>
-            <Input name='password' type='password' value={data.password}
-                   onChange={callbacks.onChange}/>
+          <Field label={t("auth.password")} error={select.errors?.password}>
+            <Input
+              name="password"
+              type="password"
+              value={data.password}
+              onChange={callbacks.onChange}
+            />
           </Field>
-          <Field error={select.errors?.other}/>
+          <Field error={select.errors?.other} />
           <Field>
-            <button type='submit'>{t('auth.signIn')}</button>
+            <button type="submit">{t("auth.signIn")}</button>
           </Field>
         </form>
       </SideLayout>
     </PageLayout>
   );
 }
+
+Login.propTypes = {
+  translate: PropTypes.shape({
+    lang: PropTypes.string,
+    setLang: PropTypes.func,
+    t: PropTypes.func,
+  }),
+};
 
 export default memo(Login);

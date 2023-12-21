@@ -26,7 +26,7 @@ function CommentForm(props) {
 
   return (
     <form className={cn()} onSubmit={callbacks.onSubmit}>
-      <h3 className={cn("title")}>Новый комментарий</h3>
+      <h3 className={cn("title")}>{props.t("comment.new")}</h3>
       <textarea
         onChange={callbacks.onChange}
         value={text}
@@ -36,11 +36,11 @@ function CommentForm(props) {
       ></textarea>
       <div className={cn("buttons")}>
         <button className={cn("submit")} type="submit">
-          Отправить
+          {props.t("comment.send")}
         </button>
         {props.cancelBtn && (
           <button onClick={callbacks.onCancel} className={cn("cancel")}>
-            Отменить
+            {props.t("comment.cancel")}
           </button>
         )}
       </div>
@@ -53,11 +53,13 @@ CommentForm.propTypes = {
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func,
   commentId: PropTypes.string,
+  t: PropTypes.func
 };
 
 CommentForm.defaultProps = {
   cancelBtn: false,
   onCancel: () => {},
+  t: (text) => {}
 };
 
 export default CommentForm;

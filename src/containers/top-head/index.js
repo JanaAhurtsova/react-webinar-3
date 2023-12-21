@@ -1,17 +1,15 @@
 import {memo, useCallback} from 'react';
-import SideLayout from '../../components/side-layout';
+import PropTypes from "prop-types";
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import useTranslate from '../../hooks/use-translate';
+import SideLayout from '../../components/side-layout';
 import useSelector from '../../hooks/use-selector';
 import useStore from '../../hooks/use-store';
 
-function TopHead() {
+function TopHead({t}) {
 
-  const {t} = useTranslate();
   const navigate = useNavigate();
   const location = useLocation();
   const store = useStore();
-
   const select = useSelector(state => ({
     user: state.session.user,
     exists: state.session.exists
@@ -40,5 +38,8 @@ function TopHead() {
   );
 }
 
+TopHead.propTypes = {
+  t: PropTypes.func
+}
 
 export default memo(TopHead);

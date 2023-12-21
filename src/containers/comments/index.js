@@ -15,7 +15,7 @@ import treeToList from "../../utils/tree-to-list";
 import CommentsLayout from "../../components/comments-layout";
 import { useLocation } from "react-router-dom";
 
-function Comments({ articleId }) {
+function Comments({ articleId, t }) {
   const dispatch = useDispatchRedux();
   const location = useLocation();
   const isAuth = useSelector((state) => state.session.exists);
@@ -60,7 +60,7 @@ function Comments({ articleId }) {
   })).slice(1), [select.comments]);
 
   return (
-    <CommentsLayout count={select.count}>
+    <CommentsLayout count={select.count} t={t}>
       <Spinner active={select.waiting}>
         <CommentsList
           comments={commentsFormat}
@@ -71,13 +71,14 @@ function Comments({ articleId }) {
           location={location}
           resetParent={callbacks.onResetParent}
           articleId={articleId}
+          t={t}
         />
       </Spinner>
       {!isAuth && parent._id === articleId && (
-        <CommentLogin isShowClose={false} location={location} />
+        <CommentLogin isShowClose={false} location={location} t={t}/>
       )}
       {isAuth && parent._id === articleId && (
-        <CommentForm cancelBtn={false} onSubmit={callbacks.onSubmit} />
+        <CommentForm cancelBtn={false} onSubmit={callbacks.onSubmit} t={t} />
       )}
     </CommentsLayout>
   );
@@ -85,6 +86,7 @@ function Comments({ articleId }) {
 
 Comments.propTypes = {
   articleId: PropTypes.string.isRequired,
+  t: PropTypes.func
 };
 
 export default memo(Comments);

@@ -9,7 +9,7 @@ function Comment(props) {
 
   const dateFromDate = {
     date: date.getDate(),
-    month: date.toLocaleString("default", { month: "long" }),
+    month: date.toLocaleString(props.t("comment.locale"), { month: "long" }),
     year: date.getFullYear(),
     hours: date.getHours(),
     minutes: date.getMinutes(),
@@ -27,7 +27,7 @@ function Comment(props) {
         <h3 className={cn("username")}>{props.author.profile.name}</h3>
         <span className={cn("date")}>{`${dateFromDate.date} ${
           dateFromDate.month
-        } ${dateFromDate.year} в ${dateFromDate.hours}:${
+        } ${dateFromDate.year} ${props.t("comment.at")} ${dateFromDate.hours}:${
           dateFromDate.minutes > 10
             ? dateFromDate.minutes
             : "0" + dateFromDate.minutes
@@ -36,7 +36,7 @@ function Comment(props) {
       <p className={cn("text")}>{props.text}</p>
       <div className={cn("reply")}>
         <button onClick={callbacks.onReply} className={cn("action")}>
-          Ответить
+          {props.t("comment.reply")}
         </button>
       </div>
     </article>
@@ -55,6 +55,7 @@ Comment.protoTypes = {
   }),
   offset: PropTypes.number,
   onReply: PropTypes.func,
+  t: PropTypes.func,
 };
 
 export default Comment;

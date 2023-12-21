@@ -14,32 +14,35 @@ function CommentsList(props) {
       {props.comments.length > 0 && (
         <ul className={cn()}>
           {props.comments.map((comment) => (
-          <li
-            key={comment._id}
-            style={{ paddingLeft: `${comment.offset * 30}px` }}
-          >
-            <Comment
-              {...comment}
-              isAuth={props.isAuth}
-              onSubmit={props.onSubmit}
-              onReply={props.setParent}
-            />
-            {props.parent._id === comment._id && props.isAuth && (
-              <CommentForm
-                cancelBtn={true}
+            <li
+              key={comment._id}
+              style={{ paddingLeft: `${comment.offset * 30}px` }}
+            >
+              <Comment
+                {...comment}
+                isAuth={props.isAuth}
                 onSubmit={props.onSubmit}
-                onCancel={props.resetParent}
-                commentId={comment._id}
+                onReply={props.setParent}
+                t={props.t}
               />
-            )}
-            {props.parent._id === comment._id && !props.isAuth && (
-              <CommentLogin
-                isShowClose={true}
-                location={props.location}
-                onCancel={props.resetParent}
-              />
-            )}
-          </li>
+              {props.parent._id === comment._id && props.isAuth && (
+                <CommentForm
+                  cancelBtn={true}
+                  onSubmit={props.onSubmit}
+                  onCancel={props.resetParent}
+                  commentId={comment._id}
+                  t={props.t}
+                />
+              )}
+              {props.parent._id === comment._id && !props.isAuth && (
+                <CommentLogin
+                  isShowClose={true}
+                  location={props.location}
+                  onCancel={props.resetParent}
+                  t={props.t}
+                />
+              )}
+            </li>
           ))}
         </ul>
       )}
@@ -70,6 +73,7 @@ CommentsList.propTypes = {
   onSubmit: PropTypes.func,
   setParent: PropTypes.func,
   resetParent: PropTypes.func,
+  t: PropTypes.func
 };
 
 export default memo(CommentsList);
