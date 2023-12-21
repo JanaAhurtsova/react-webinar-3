@@ -1,0 +1,32 @@
+.Comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.Comment-header {
+  display: flex;
+  gap: 10px;
+}
+
+.Comment-username {
+  font-weight: bold;
+  font-size: 12px;
+  margin: 0;
+}
+
+.Comment-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.Comment-text {
+  margin: 0;
+}
+
+.Comment-action {
+  color: #0087E9;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
