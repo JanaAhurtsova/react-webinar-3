@@ -32,7 +32,7 @@ export default {
               _type: commentId ? "comment" : "article",
             },
           };
-          console.log(body)
+
           const res = await services.api.request({
             url: `/api/v1/comments?fields=_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted&search[parent]=${articleId}`,
             method: "POST",

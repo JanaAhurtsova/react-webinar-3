@@ -24,7 +24,13 @@ function Comment(props) {
   return (
     <article className={cn()}>
       <div className={cn("header")}>
-        <h3 className={cn("username")}>{props.author.profile.name}</h3>
+        <h3
+          className={cn("username", {
+            current: props.author.profile.name === props.currentUsername,
+          })}
+        >
+          {props.author.profile.name}
+        </h3>
         <span className={cn("date")}>{`${dateFromDate.date} ${
           dateFromDate.month
         } ${dateFromDate.year} ${props.t("comment.at")} ${dateFromDate.hours}:${
@@ -56,6 +62,7 @@ Comment.protoTypes = {
   offset: PropTypes.number,
   onReply: PropTypes.func,
   t: PropTypes.func,
+  currentUsername: PropTypes.string
 };
 
 export default Comment;

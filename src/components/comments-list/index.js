@@ -20,6 +20,7 @@ function CommentsList(props) {
             >
               <Comment
                 {...comment}
+                currentUsername={props.currentUsername}
                 isAuth={props.isAuth}
                 onSubmit={props.onSubmit}
                 onReply={props.setParent}
@@ -69,6 +70,7 @@ CommentsList.propTypes = {
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     _type: PropTypes.string
   }),
+  currentUsername: PropTypes.string,
   isAuth: PropTypes.bool,
   onSubmit: PropTypes.func,
   setParent: PropTypes.func,

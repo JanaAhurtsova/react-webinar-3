@@ -18,7 +18,12 @@ import { useLocation } from "react-router-dom";
 function Comments({ articleId, t }) {
   const dispatch = useDispatchRedux();
   const location = useLocation();
-  const isAuth = useSelector((state) => state.session.exists);
+  
+  const selectStore = useSelector((state) => ({
+    isAuth: state.session.exists,
+    currentUsername: state.session.user.profile?.name,
+  }));
+
   const select = useSelectorRedux((state) => ({
     waiting: state.comments.waiting,
     comments: state.comments.comments,
@@ -64,7 +69,8 @@ function Comments({ articleId, t }) {
       <Spinner active={select.waiting}>
         <CommentsList
           comments={commentsFormat}
-          isAuth={isAuth}
+          currentUsername={selectStore.currentUsername}
+          isAuth={selectStore.isAuth}
           onSubmit={callbacks.onSubmit}
           setParent={callbacks.onSetParent}
           parent={parent}
@@ -74,10 +80,10 @@ function Comments({ articleId, t }) {
           t={t}
         />
       </Spinner>
-      {!isAuth && parent._id === articleId && (
-        <CommentLogin isShowClose={false} location={location} t={t}/>
+      {!selectStore.isAuth && parent._id === articleId && (
+        <CommentLogin isShowClose={false} location={location} t={t} />
       )}
-      {isAuth && parent._id === articleId && (
+      {selectStore.isAuth && parent._id === articleId && (
         <CommentForm cancelBtn={false} onSubmit={callbacks.onSubmit} t={t} />
       )}
     </CommentsLayout>
