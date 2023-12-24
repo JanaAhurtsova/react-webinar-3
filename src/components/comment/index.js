@@ -1,11 +1,22 @@
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css"
+import { getLastChild } from "../../utils/last-child";
+import { useEffect, useState } from "react";
 
 function Comment(props) {
   const cn = bem("Comment");
+  const [offset, setOffset] = useState(0);
 
-  const date = new Date(props.dateCreate);
+  useEffect(() => {
+    const maxOffset =
+      props.comment.offset > props.maxNesting
+        ? props.maxNesting
+        : props.comment.offset;
+    setOffset(maxOffset);
+  }, [setOffset]);
+
+  const date = new Date(props.comment.dateCreate);
 
   const dateFromDate = {
     date: date.getDate(),
@@ -17,19 +28,22 @@ function Comment(props) {
 
   const callbacks={
     onReply: () => {
-      props.onReply(props._id);
+      const lastChild = getLastChild(props.comment);
+      props.onReply(lastChild);
+      props.setOffsetForm(offset);
     }
   }
 
   return (
-    <article className={cn()}>
+    <article className={cn()} style={{ paddingLeft: `${offset * 30}px` }}>
       <div className={cn("header")}>
         <h3
           className={cn("username", {
-            current: props.author.profile.name === props.currentUsername,
+            current:
+              props.comment.author.profile.name === props.currentUsername,
           })}
         >
-          {props.author.profile.name}
+          {props.comment.author.profile.name}
         </h3>
         <span className={cn("date")}>{`${dateFromDate.date} ${
           dateFromDate.month
@@ -39,7 +53,7 @@ function Comment(props) {
             : "0" + dateFromDate.minutes
         }`}</span>
       </div>
-      <p className={cn("text")}>{props.text}</p>
+      <p className={cn("text")}>{props.comment.text}</p>
       <div className={cn("reply")}>
         <button onClick={callbacks.onReply} className={cn("action")}>
           {props.t("comment.reply")}
@@ -50,14 +64,17 @@ function Comment(props) {
 }
 
 Comment.protoTypes = {
-  _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  dateCreate: PropTypes.string,
-  text: PropTypes.string,
-  author: PropTypes.shape({
+  comment: PropTypes.shape({
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    profile: PropTypes.shape({
-      name: PropTypes.string,
+    dateCreate: PropTypes.string,
+    text: PropTypes.string,
+    author: PropTypes.shape({
+      _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      profile: PropTypes.shape({
+        name: PropTypes.string,
+      }),
     }),
+    children: PropTypes.array
   }),
   offset: PropTypes.number,
   onReply: PropTypes.func,

@@ -18,7 +18,7 @@ import { useLocation } from "react-router-dom";
 function Comments({ articleId, t }) {
   const dispatch = useDispatchRedux();
   const location = useLocation();
-  
+
   const selectStore = useSelector((state) => ({
     isAuth: state.session.exists,
     currentUsername: state.session.user.profile?.name,
@@ -30,24 +30,24 @@ function Comments({ articleId, t }) {
     count: state.comments.count
   }));
 
-  const [parent, setParent] = useState({
+  const [positionAfter, setPositionAfter] = useState({
     _id: articleId,
-    _type: articleId,
+    _type: "article",
   });
 
   const callbacks = {
     onSubmit: (text, commentId) =>
       dispatch(commentsActions.addComment(text, commentId, articleId)),
 
-    onSetParent: useCallback(
+    onSetPositionAfter: useCallback(
       (_id) => {
-        setParent({ _id, _type: "comment" });
+        setPositionAfter({ _id, _type: "comment" });
       },
-      [setParent]
+      [setPositionAfter]
     ),
 
-    onResetParent: () => {
-      setParent({
+    onResetPosition: () => {
+      setPositionAfter({
         _id: articleId,
         _type: "article",
       });
@@ -60,6 +60,7 @@ function Comments({ articleId, t }) {
     text: comment.text,
     dateCreate: comment.dateCreate,
     parent: comment.parent,
+    children: comment.children,
     isDeleted: comment.isDeleted,
     offset: level - 1,
   })).slice(1), [select.comments]);
@@ -72,19 +73,19 @@ function Comments({ articleId, t }) {
           currentUsername={selectStore.currentUsername}
           isAuth={selectStore.isAuth}
           onSubmit={callbacks.onSubmit}
-          setParent={callbacks.onSetParent}
-          parent={parent}
+          setPositionAfter={callbacks.onSetPositionAfter}
+          positionAfter={positionAfter}
           location={location}
-          resetParent={callbacks.onResetParent}
+          resetPosition={callbacks.onResetPosition}
           articleId={articleId}
           t={t}
         />
       </Spinner>
-      {!selectStore.isAuth && parent._id === articleId && (
+      {!selectStore.isAuth && positionAfter._id === articleId && (
         <CommentLogin isShowClose={false} location={location} t={t} />
       )}
-      {selectStore.isAuth && parent._id === articleId && (
-        <CommentForm cancelBtn={false} onSubmit={callbacks.onSubmit} t={t} />
+      {selectStore.isAuth && positionAfter._id === articleId && (
+        <CommentForm isReply={false} onSubmit={callbacks.onSubmit} t={t} />
       )}
     </CommentsLayout>
   );

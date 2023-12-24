@@ -11,6 +11,11 @@ function CommentForm(props) {
   const callbacks = {
     onSubmit: (e) => {
       e.preventDefault();
+
+      if(!text.trim()) {
+        return;
+      }
+
       props.onSubmit(text, props.commentId);
       setText("");
       props.onCancel();
@@ -26,7 +31,11 @@ function CommentForm(props) {
 
   return (
     <form className={cn()} onSubmit={callbacks.onSubmit}>
-      <h3 className={cn("title")}>{props.t("comment.new")}</h3>
+      <h3 className={cn("title")}>
+        {props.isReply
+          ? props.t("comment.new.reply")
+          : props.t("comment.new.comment")}
+      </h3>
       <textarea
         onChange={callbacks.onChange}
         value={text}
@@ -38,7 +47,7 @@ function CommentForm(props) {
         <button className={cn("submit")} type="submit">
           {props.t("comment.send")}
         </button>
-        {props.cancelBtn && (
+        {props.isReply && (
           <button onClick={callbacks.onCancel} className={cn("cancel")}>
             {props.t("comment.cancel")}
           </button>
@@ -49,15 +58,15 @@ function CommentForm(props) {
 }
 
 CommentForm.propTypes = {
-  cancelBtn: PropTypes.bool,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func,
   commentId: PropTypes.string,
-  t: PropTypes.func
+  t: PropTypes.func,
+  isReply: PropTypes.bool,
 };
 
 CommentForm.defaultProps = {
-  cancelBtn: false,
+  isReply: false,
   onCancel: () => {},
   t: (text) => {}
 };

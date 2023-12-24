@@ -1,50 +1,63 @@
-import { memo } from "react";
+import React, { memo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 import Comment from "../comment";
 import CommentForm from "../comment-form";
 import CommentLogin from "../comment-login";
+import CommentOffset from "../comment-offset";
 
 function CommentsList(props) {
+  const formRef = useRef(null);
   const cn = bem("CommentsList");
+  const maxNesting = 5;
+  const [offsetForm, setOffsetForm] = useState(0);
 
   return (
     <>
       {props.comments.length > 0 && (
         <ul className={cn()}>
-          {props.comments.map((comment) => (
-            <li
-              key={comment._id}
-              style={{ paddingLeft: `${comment.offset * 30}px` }}
-            >
-              <Comment
-                {...comment}
-                currentUsername={props.currentUsername}
-                isAuth={props.isAuth}
-                onSubmit={props.onSubmit}
-                onReply={props.setParent}
-                t={props.t}
-              />
-              {props.parent._id === comment._id && props.isAuth && (
-                <CommentForm
-                  cancelBtn={true}
+          {props.comments.map((comment) => {
+            return (
+              <React.Fragment key={comment._id}>
+                <Comment
+                  comment={comment}
+                  currentUsername={props.currentUsername}
+                  isAuth={props.isAuth}
                   onSubmit={props.onSubmit}
-                  onCancel={props.resetParent}
-                  commentId={comment._id}
+                  onReply={props.setPositionAfter}
                   t={props.t}
+                  maxNesting={maxNesting}
+                  setOffsetForm={setOffsetForm}
                 />
-              )}
-              {props.parent._id === comment._id && !props.isAuth && (
-                <CommentLogin
-                  isShowClose={true}
-                  location={props.location}
-                  onCancel={props.resetParent}
-                  t={props.t}
-                />
-              )}
-            </li>
-          ))}
+                {props.positionAfter._id === comment._id && (
+                  <CommentOffset
+                    ref={formRef}
+                    offset={offsetForm}
+                    maxNesting={maxNesting}
+                  >
+                    {props.isAuth && (
+                      <CommentForm
+                        isReply={true}
+                        onSubmit={props.onSubmit}
+                        onCancel={props.resetPosition}
+                        commentId={comment._id}
+                        t={props.t}
+                      />
+                    )}
+                    {!props.isAuth && (
+                      <CommentLogin
+                        isShowClose={true}
+                        location={props.location}
+                        onCancel={props.resetPosition}
+                        t={props.t}
+                      />
+                    )}
+                  </CommentOffset>
+                )}
+              </React.Fragment>
+            );
+          })}
         </ul>
       )}
     </>
@@ -66,15 +79,15 @@ CommentsList.propTypes = {
       offset: PropTypes.number,
     })
   ),
-  parent: PropTypes.shape({
+  positionAfter: PropTypes.shape({
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     _type: PropTypes.string
   }),
   currentUsername: PropTypes.string,
   isAuth: PropTypes.bool,
   onSubmit: PropTypes.func,
-  setParent: PropTypes.func,
-  resetParent: PropTypes.func,
+  setPositionAfter: PropTypes.func,
+  resetPosition: PropTypes.func,
   t: PropTypes.func
 };
 
