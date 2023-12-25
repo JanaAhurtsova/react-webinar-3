@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import useServices from "./use-services";
 
 /**
@@ -6,15 +6,11 @@ import useServices from "./use-services";
  */
 export default function useTranslate() {
   const { i18n } = useServices();
-	const [lang, setLang] = useState(i18n.lang);
-
-  useLayoutEffect(()=> {
-		i18n.setLang(lang)
-  }, [lang]);
+	const state = useSyncExternalStore(i18n.subscribe, i18n.getSnapshot);
 
 	return {
-    lang,
-    setLang,
-    t: (text, number) => i18n.translate(lang, text, number),
+    lang: state.lang,
+    setLang: i18n.setLang,
+    t: (text, number, lang = state.lang) => i18n.translate(lang, text, number),
   };
 }

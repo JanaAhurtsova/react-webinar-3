@@ -14,10 +14,12 @@ import listToTree from "../../utils/list-to-tree";
 import treeToList from "../../utils/tree-to-list";
 import CommentsLayout from "../../components/comments-layout";
 import { useLocation } from "react-router-dom";
+import useTranslate from "../../hooks/use-translate";
 
-function Comments({ articleId, t }) {
+function Comments({ articleId }) {
   const dispatch = useDispatchRedux();
   const location = useLocation();
+  const { t } = useTranslate();
 
   const selectStore = useSelector((state) => ({
     isAuth: state.session.exists,
@@ -93,7 +95,6 @@ function Comments({ articleId, t }) {
 
 Comments.propTypes = {
   articleId: PropTypes.string.isRequired,
-  t: PropTypes.func
 };
 
 export default memo(Comments);

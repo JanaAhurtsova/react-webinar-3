@@ -1,49 +1,43 @@
-import {Routes, Route} from 'react-router-dom';
-import {useSelector as useSelectorRedux} from 'react-redux';
-import useStore from '../hooks/use-store';
-import useInit from '../hooks/use-init';
-import Main from './main';
-import Basket from './basket';
-import Article from './article';
-import Login from './login';
-import Profile from './profile';
-import Protected from '../containers/protected';
-import useTranslate from '../hooks/use-translate';
+import { Routes, Route } from "react-router-dom";
+import { useSelector as useSelectorRedux } from "react-redux";
+import useStore from "../hooks/use-store";
+import useInit from "../hooks/use-init";
+import Main from "./main";
+import Basket from "./basket";
+import Article from "./article";
+import Login from "./login";
+import Profile from "./profile";
+import Protected from "../containers/protected";
 
 /**
  * Приложение
  * @returns {React.ReactElement}
  */
 function App() {
-
-  const translate = useTranslate();
   const store = useStore();
   useInit(async () => {
     await store.actions.session.remind();
-  })
+  });
 
-  const activeModal = useSelectorRedux(state => state.modals.name);
+  const activeModal = useSelectorRedux((state) => state.modals.name);
 
   return (
     <>
       <Routes>
-        <Route path={""} element={<Main translate={translate} />} />
-        <Route
-          path={"/articles/:id"}
-          element={<Article translate={translate} />}
-        />
-        <Route path={"/login"} element={<Login translate={translate} />} />
+        <Route path={""} element={<Main />} />
+        <Route path={"/articles/:id"} element={<Article />} />
+        <Route path={"/login"} element={<Login />} />
         <Route
           path={"/profile"}
           element={
-            <Protected redirect="/login" translate={translate}>
-              <Profile translate={translate} />
+            <Protected redirect="/login">
+              <Profile />
             </Protected>
           }
         />
       </Routes>
 
-      {activeModal === "basket" && <Basket translate={translate} />}
+      {activeModal === "basket" && <Basket />}
     </>
   );
 }

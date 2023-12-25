@@ -1,15 +1,15 @@
 import {memo, useCallback} from 'react';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import Item from '../../components/item';
 import List from '../../components/list';
 import Pagination from '../../components/pagination';
 import Spinner from '../../components/spinner';
+import useTranslate from '../../hooks/use-translate';
 
-function CatalogList({ t }) {
+function CatalogList() {
   const store = useStore();
-
+  const {t} = useTranslate();
   const select = useSelector((state) => ({
     list: state.catalog.list,
     page: state.catalog.params.page,
@@ -72,9 +72,5 @@ function CatalogList({ t }) {
     </Spinner>
   );
 }
-
-CatalogList.propTypes = {
-  t: PropTypes.func
-};
 
 export default memo(CatalogList);

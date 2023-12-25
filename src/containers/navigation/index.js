@@ -1,5 +1,4 @@
 import {memo, useCallback, useMemo} from 'react';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import Menu from '../../components/menu';
@@ -7,10 +6,12 @@ import BasketTool from '../../components/basket-tool';
 import SideLayout from '../../components/side-layout';
 import {useDispatch} from 'react-redux';
 import modalsActions from '../../store-redux/modals/actions';
+import useTranslate from '../../hooks/use-translate';
 
-function Navigation({ t }) {
+function Navigation() {
   const store = useStore();
   const dispatch = useDispatch();
+  const {t} = useTranslate();
 
   const select = useSelector(state => ({
     amount: state.basket.amount,
@@ -42,10 +43,6 @@ function Navigation({ t }) {
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} t={t}/>
     </SideLayout>
   );
-}
-
-Navigation.propTypes = {
-  t: PropTypes.func
 }
 
 export default memo(Navigation);

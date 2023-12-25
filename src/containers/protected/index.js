@@ -2,14 +2,15 @@ import {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useLocation, useNavigate} from 'react-router-dom';
 import useSelector from '../../hooks/use-selector';
+import useTranslate from '../../hooks/use-translate';
 
-function Protected({children, redirect, translate}) {
+function Protected({children, redirect}) {
 
   const select = useSelector(state => ({
     exists: state.session.exists,
     waiting: state.session.waiting
   }));
-  const {t} = translate;
+  const {t} = useTranslate();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,7 +30,6 @@ function Protected({children, redirect, translate}) {
 Protected.propTypes = {
   redirect: PropTypes.string,
   children: PropTypes.node,
-  t: PropTypes.func
 }
 
 export default memo(Protected);

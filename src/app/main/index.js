@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
@@ -9,11 +8,12 @@ import CatalogFilter from '../../containers/catalog-filter';
 import CatalogList from '../../containers/catalog-list';
 import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
+import useTranslate from '../../hooks/use-translate';
 
-function Main({translate}) {
+function Main() {
 
   const store = useStore();
-  const {lang, setLang, t} = translate;
+  const {lang, t} = useTranslate();
 
   useInit(async () => {
     await Promise.all([
@@ -24,23 +24,15 @@ function Main({translate}) {
 
   return (
     <PageLayout>
-      <TopHead t={t} />
+      <TopHead />
       <Head title={t("title")}>
-        <LocaleSelect setLang={setLang} lang={lang} />
+        <LocaleSelect />
       </Head>
-      <Navigation t={t} />
-      <CatalogFilter translate={translate} />
-      <CatalogList t={t} />
+      <Navigation />
+      <CatalogFilter />
+      <CatalogList />
     </PageLayout>
   );
 }
-
-Main.propTypes = {
-  translate: PropTypes.shape({
-    lang: PropTypes.string,
-    setLang: PropTypes.func,
-    t: PropTypes.func,
-  }),
-};
 
 export default memo(Main);

@@ -27,6 +27,7 @@
 .Comment-text {
   margin: 0;
   word-break: break-all;
+  font-size: 14px;
 }
 
 .Comment-action {
@@ -34,4 +35,5 @@
   border: none;
   background-color: transparent;
   padding: 0;
+  font-size: 12px;
 }

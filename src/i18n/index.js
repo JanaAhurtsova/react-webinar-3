@@ -3,7 +3,15 @@ import * as translations from "./translations";
 class I18nService {
   constructor(services, config = {}) {
     this.services = services;
-    this.lang = config.lang;
+    this.config = config;
+    this.listeners = new Set();
+    this.services.api.setHeader("X-lang", this.config.lang);
+
+    //использование функций без потери контекста
+    this.getSnapshot = this.getSnapshot.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+    this.setLang = this.setLang.bind(this);
+    this.translate = this.translate.bind(this);
   }
 
   /**
@@ -14,7 +22,7 @@ class I18nService {
    * @returns {String} Переведенный текст
    */
   translate(lang, text, plural) {
-    let changedLang = lang ? lang : this.lang;
+    let changedLang = lang ? lang : this.config.lang;
     let result =
       translations[changedLang] && text in translations[changedLang]
         ? translations[changedLang][text]
@@ -30,9 +38,23 @@ class I18nService {
     return result;
   }
 
+  getSnapshot() {
+    return this.config;
+  }
+
   setLang(newLang) {
-    this.lang = newLang;
-    this.services.api.setHeader("X-lang", newLang);
+    const lang = newLang || this.config.lang;
+    this.config = {
+      ...this.config,
+      lang,
+    };
+    this.services.api.setHeader("X-lang", lang);
+    this.listeners.forEach((listener) => listener());
+  }
+
+  subscribe(listener) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
   }
 }
 

@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useInit from '../../hooks/use-init';
@@ -10,9 +9,11 @@ import Spinner from '../../components/spinner';
 import LocaleSelect from '../../containers/locale-select';
 import TopHead from '../../containers/top-head';
 import ProfileCard from '../../components/profile-card';
+import useTranslate from '../../hooks/use-translate';
 
-function Profile({translate}) {
+function Profile() {
   const store = useStore();
+  const { t } = useTranslate();
 
   useInit(() => {
     store.actions.profile.load();
@@ -23,28 +24,19 @@ function Profile({translate}) {
     waiting: state.profile.waiting,
   }));
 
-  const {lang, setLang, t} = translate;
 
   return (
     <PageLayout>
-      <TopHead t={t} />
+      <TopHead />
       <Head title={t("title")}>
-        <LocaleSelect setLang={setLang} lang={lang} />
+        <LocaleSelect />
       </Head>
-      <Navigation t={t} />
+      <Navigation />
       <Spinner active={select.waiting}>
         <ProfileCard data={select.profile} t={t} />
       </Spinner>
     </PageLayout>
   );
 }
-
-Profile.propTypes = {
-  translate: PropTypes.shape({
-    lang: PropTypes.string,
-    setLang: PropTypes.func,
-    t: PropTypes.func,
-  }),
-};
 
 export default memo(Profile);

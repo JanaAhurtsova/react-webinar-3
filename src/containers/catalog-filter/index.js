@@ -1,5 +1,4 @@
 import {memo, useCallback, useMemo} from 'react';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import Select from '../../components/select';
@@ -7,8 +6,9 @@ import Input from '../../components/input';
 import SideLayout from '../../components/side-layout';
 import treeToList from '../../utils/tree-to-list';
 import listToTree from '../../utils/list-to-tree';
+import useTranslate from '../../hooks/use-translate';
 
-function CatalogFilter({ translate }) {
+function CatalogFilter() {
   const store = useStore();
 
   const select = useSelector((state) => ({
@@ -42,7 +42,7 @@ function CatalogFilter({ translate }) {
     ),
   };
 
-  const { t, lang } = translate;
+  const { t, lang } = useTranslate();
 
   const options = {
     // Варианты сортировок
@@ -90,13 +90,5 @@ function CatalogFilter({ translate }) {
     </SideLayout>
   );
 }
-
-CatalogFilter.propTypes = {
-  translate: PropTypes.shape({
-    lang: PropTypes.string,
-    setLang: PropTypes.func,
-    t: PropTypes.func,
-  }),
-};
 
 export default memo(CatalogFilter);

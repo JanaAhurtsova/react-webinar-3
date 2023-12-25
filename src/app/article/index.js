@@ -15,15 +15,16 @@ import TopHead from '../../containers/top-head';
 import articleActions from '../../store-redux/article/actions';
 import commentsAction from "../../store-redux/comments/actions";
 import Comments from '../../containers/comments';
+import useTranslate from '../../hooks/use-translate';
 
-function Article({translate}) {
+function Article() {
   const store = useStore();
 
   const dispatch = useDispatch();
   // Параметры из пути /articles/:id
 
   const params = useParams();
-  const {lang, setLang, t} = translate;
+  const {lang, t} = useTranslate();
 
   useInit(async () => {
     await Promise.all([
@@ -45,11 +46,11 @@ function Article({translate}) {
 
   return (
     <PageLayout>
-      <TopHead t={t} />
+      <TopHead />
       <Head title={select.article.title}>
-        <LocaleSelect setLang={setLang} lang={lang} />
+        <LocaleSelect />
       </Head>
-      <Navigation t={t} />
+      <Navigation />
       <Spinner active={select.waiting}>
         <ArticleCard
           article={select.article}
@@ -57,17 +58,9 @@ function Article({translate}) {
           t={t}
         />
       </Spinner>
-      <Comments articleId={params.id} t={t} />
+      <Comments articleId={params.id} />
     </PageLayout>
   );
-}
-
-Article.propTypes = {
-  translate: PropTypes.shape({
-    lang: PropTypes.string,
-    setLang: PropTypes.func,
-    t: PropTypes.func
-  })
 }
 
 export default memo(Article);

@@ -1,8 +1,9 @@
 import {memo, useMemo} from 'react';
-import PropTypes from "prop-types";
 import Select from '../../components/select';
+import useTranslate from '../../hooks/use-translate';
 
-function LocaleSelect({ lang, setLang }) {
+function LocaleSelect() {
+  const { lang, setLang } = useTranslate();
   const options = {
     lang: useMemo(
       () => [
@@ -15,10 +16,5 @@ function LocaleSelect({ lang, setLang }) {
 
   return <Select onChange={setLang} value={lang} options={options.lang} />;
 }
-
-LocaleSelect.propTypes = {
-  lang: PropTypes.string,
-  setLang: PropTypes.func
-};
 
 export default memo(LocaleSelect);

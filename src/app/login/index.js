@@ -12,10 +12,11 @@ import TopHead from '../../containers/top-head';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useInit from '../../hooks/use-init';
+import useTranslate from '../../hooks/use-translate';
 
-function Login({translate}) {
+function Login() {
 
-  const {lang, setLang, t} = translate;
+  const { t } = useTranslate();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();
@@ -56,11 +57,11 @@ function Login({translate}) {
 
   return (
     <PageLayout>
-      <TopHead t={t} />
+      <TopHead />
       <Head title={t("title")}>
-        <LocaleSelect setLang={setLang} lang={lang} />
+        <LocaleSelect />
       </Head>
-      <Navigation t={t} />
+      <Navigation />
       <SideLayout padding="medium">
         <form onSubmit={callbacks.onSubmit}>
           <h2>{t("auth.title")}</h2>

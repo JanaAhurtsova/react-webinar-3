@@ -1,6 +1,5 @@
 import {memo, useCallback} from 'react';
 import {useDispatch, useStore as useStoreRedux} from 'react-redux';
-import PropTypes from "prop-types";
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import ItemBasket from '../../components/item-basket';
@@ -8,8 +7,9 @@ import List from '../../components/list';
 import ModalLayout from '../../components/modal-layout';
 import BasketTotal from '../../components/basket-total';
 import modalsActions from '../../store-redux/modals/actions';
+import useTranslate from '../../hooks/use-translate';
 
-function Basket({translate}) {
+function Basket() {
   const store = useStore();
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ function Basket({translate}) {
     }, [store]),
   }
 
-  const {t} = translate;
+  const {t} = useTranslate();
 
   const renders = {
     itemBasket: useCallback((item) => (
@@ -51,13 +51,5 @@ function Basket({translate}) {
     </ModalLayout>
   );
 }
-
-Basket.propTypes = {
-  translate: PropTypes.shape({
-    lang: PropTypes.string,
-    setLang: PropTypes.func,
-    t: PropTypes.func,
-  }),
-};
 
 export default memo(Basket);
